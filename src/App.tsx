@@ -1,9 +1,11 @@
+import styles from "./App.module.scss"
+
 function App() {
-  return (
-    <div className="App">
-      <h1>Hello VK!!!</h1>
-    </div>
-  )
+	return (
+		<div className={styles.app}>
+			<h1 className="underline">Hello VK!!!</h1>
+		</div>
+	)
 }
 
 export default App
