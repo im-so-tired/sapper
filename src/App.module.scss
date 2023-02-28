@@ -1,0 +1,8 @@
+.app {
+  @apply bg-white flex items-center justify-center h-[100vh] bg-gray-600;
+}
+
+.play_area {
+  @apply bg-gray-200 w-[556px] h-[640px] border-[3px] border-l-white border-t-white
+  border-r-gray-500 border-b-gray-500 p-4 flex flex-col;
+}
