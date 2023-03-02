@@ -1,4 +1,11 @@
 .field {
   @apply border-insert;
   flex: 1 0 auto;
+
+  .row {
+    @apply flex-center;
+    .cell {
+      @apply box-border w-[32px] h-[32px] flex-center;
+    }
+  }
 }

@@ -1,3 +1,6 @@
 .head {
-  @apply h-[70px] border-insert mb-5;
+  @apply h-[64px] border-insert mb-5 flex items-center justify-between px-4;
+  img {
+    @apply h-[38px]
+  }
 }

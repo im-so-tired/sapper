@@ -40,6 +40,9 @@
 		"react/jsx-no-useless-fragment": "off",
 		"import/prefer-default-export": "off",
 		"react/require-default-props": "off",
-		"tailwindcss/no-custom-classname": "off"
+		"tailwindcss/no-custom-classname": "off",
+		"no-plusplus": "off",
+		"no-continue": "off",
+		"react/no-array-index-key": "off"
 	}
 }
