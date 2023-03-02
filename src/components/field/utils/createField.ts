@@ -1,3 +1,5 @@
+import { Cell } from "../../../types/cell"
+
 const countMines = 40
 
 const randomInt = (max = 15) => {
@@ -5,20 +7,27 @@ const randomInt = (max = 15) => {
 }
 
 export const createField = (size = 16) => {
-	let field: number[][] = new Array(size).fill(0)
-	field = field.map(() => new Array(size).fill(0))
+	let field: Cell[][] = new Array(size).fill(
+		new Array(size).fill({
+			opened: false,
+			value: 0,
+			isFlag: false,
+			isQuestion: false,
+		})
+	)
+	field = field.map(row => [...row].map(cell => ({ ...cell })))
 
 	function inc(x: number, y: number) {
 		if (x >= 0 && x < size && y >= 0 && y < size) {
-			if (field[x][y] !== -1) field[x][y] += 1
+			if (field[x][y].value !== -1) field[x][y].value += 1
 		}
 	}
 
 	for (let i = 0; i <= countMines; ) {
 		const x = randomInt()
 		const y = randomInt()
-		if (field[x][y] === -1) continue
-		field[x][y] = -1
+		if (field[x][y].value === -1) continue
+		field[x][y].value = -1
 		inc(x - 1, y - 1)
 		inc(x - 1, y + 1)
 		inc(x + 1, y - 1)
@@ -30,6 +39,5 @@ export const createField = (size = 16) => {
 		inc(x, y + 1)
 		i += 1
 	}
-	console.log(field)
 	return field
 }

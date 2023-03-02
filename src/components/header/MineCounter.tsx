@@ -1,7 +1,7 @@
 import { FC } from "react"
 import zero from "../../assets/numbersToCount/0.jpg"
 
-const MinuteCounter: FC = () => {
+const MineCounter: FC = () => {
 	return (
 		<div className="flex-center">
 			<img alt="number" src={zero} />
@@ -11,4 +11,4 @@ const MinuteCounter: FC = () => {
 	)
 }
 
-export default MinuteCounter
+export default MineCounter

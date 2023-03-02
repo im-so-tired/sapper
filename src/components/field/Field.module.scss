@@ -5,7 +5,7 @@
   .row {
     @apply flex-center;
     .cell {
-      @apply box-border w-[32px] h-[32px] flex-center;
+      @apply box-border w-[32px] h-[32px] flex-center select-none cursor-pointer;
     }
   }
 }

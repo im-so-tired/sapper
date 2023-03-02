@@ -1,13 +1,13 @@
 import { FC } from "react"
 import styles from "./Header.module.scss"
-import MinuteCounter from "./MinuteCounter"
+import MineCounter from "./MineCounter"
 import Smile from "./Smile"
 import Timer from "./Timer"
 
 const Header: FC = () => {
 	return (
 		<div className={styles.head}>
-			<MinuteCounter />
+			<MineCounter />
 			<Smile />
 			<Timer />
 		</div>
