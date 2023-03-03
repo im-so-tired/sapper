@@ -2,20 +2,21 @@ import { createContext, useContext } from "react"
 import { Cell } from "../types/cell"
 import { GameStatus } from "../types/gameStatus"
 
-interface IGameContext {
+export interface IGameContext {
 	field: Cell[][]
 	gameStatus: GameStatus
 	rightClick: () => void
-	leftClick: () => void
+	leftClick: (x: number, y: number) => void
+	counter: number
 }
 
-const gameContext = createContext<IGameContext | null>(null)
+const GameContext = createContext<IGameContext | null>(null)
 
-export const GameProvider = gameContext.Provider
+export const GameProvider = GameContext.Provider
 
 export const useGameContext = () => {
-	const data = useContext(gameContext)
+	const data = useContext(GameContext)
 	if (!data)
-		throw new Error("Can not `useLayoutContext` outside of the `LayoutProvide`")
+		throw new Error("Can not `useGameContext` outside of the `GameProvide`")
 	return data
 }
