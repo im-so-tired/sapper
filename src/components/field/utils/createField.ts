@@ -39,5 +39,6 @@ export const createField = (size = 16) => {
 		inc(x, y + 1)
 		i += 1
 	}
+
 	return field
 }

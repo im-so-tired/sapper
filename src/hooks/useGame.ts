@@ -8,16 +8,11 @@ export const useGame = () => {
 	const [gameStatus, setGameStatus] = useState<GameStatus>("playing")
 	const [counter, setCounter] = useState(0)
 
-	const clear = (x: number, y: number) => {}
 	const leftClick = (x: number, y: number) => {
-		if (gameStatus === "lose" || gameStatus === "win") return
-
-		let newField = JSON.parse(JSON.stringify(field))
-		newField[x][y].opened = true
-
-		if (newField[x][y].value === -1) {
+		// if (gameStatus === "lose" || gameStatus === "win") return
+		if (field[x][y].value === -1) {
 			setGameStatus("lose")
-			newField = newField.map((row: Cell[]) =>
+			const newField = field.map((row: Cell[]) =>
 				row.map(cell => {
 					const newCell = cell
 					if (cell.value === -1) {
@@ -26,8 +21,38 @@ export const useGame = () => {
 					return newCell
 				})
 			)
+			setField(newField)
+		} else if (field[x][y].value === 0) {
+			const clearing: [number, number][] = []
+			const clear = (setOffX: number, setOffY: number) => {
+				if (
+					setOffX >= 0 &&
+					setOffX < field.length &&
+					setOffY >= 0 &&
+					setOffY < field.length
+				) {
+					if (field[setOffX][setOffY].opened) return
+					clearing.push([setOffX, setOffY])
+				}
+			}
+			clear(x, y)
+			while (clearing.length) {
+				console.log(clearing)
+				const [coorX, coorY] = clearing.pop()!
+				field[coorX][coorY].opened = true
+				if (field[coorX][coorY].value !== 0) continue
+
+				clear(coorX + 1, coorY)
+				clear(coorX - 1, coorY)
+
+				clear(coorX, coorY + 1)
+				clear(coorX, coorY - 1)
+			}
+			setField(prev => JSON.parse(JSON.stringify(prev)))
+		} else {
+			field[x][y].opened = true
+			setField(prev => JSON.parse(JSON.stringify(prev)))
 		}
-		setField(newField)
 	}
 
 	const rightClick = () => {
