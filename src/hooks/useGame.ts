@@ -13,9 +13,7 @@ export const useGame = (): IGameContext => {
 	const [counter, setCounter] = useState(0)
 	const [firstClick, setFirstClick] = useState(true)
 
-	const clear = (x: number, y: number) => {}
 	const leftClick = (x: number, y: number) => {
-
 		if (gameStatus !== "playing") return
 		let firstField: Cell[][] = []
 		if (firstClick) {
@@ -23,16 +21,8 @@ export const useGame = (): IGameContext => {
 			console.log("first")
 		}
 		if (field[x][y].value === -1) {
-
-		if (gameStatus === "lose" || gameStatus === "win") return
-
-		let newField = JSON.parse(JSON.stringify(field))
-		newField[x][y].opened = true
-
-		if (newField[x][y].value === -1) {
-
 			setGameStatus("lose")
-			newField = newField.map((row: Cell[]) =>
+			const newField = field.map((row: Cell[]) =>
 				row.map(cell => {
 					const newCell = cell
 					if (cell.value === -1) {
@@ -41,7 +31,6 @@ export const useGame = (): IGameContext => {
 					return newCell
 				})
 			)
-
 			setField(newField)
 		} else if (field[x][y].value === 0) {
 			let clearedField: Cell[][] = []
@@ -88,7 +77,6 @@ export const useGame = (): IGameContext => {
 			field[x][y].opened = true
 			setField(prev => JSON.parse(JSON.stringify(prev)))
 		}
-		setField(newField)
 	}
 
 	const rightClick = (x: number, y: number) => {
