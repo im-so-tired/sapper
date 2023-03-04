@@ -1,12 +1,12 @@
 import { FC } from "react"
 import { v4 as uuid } from "uuid"
-import { useGameContext } from "../../hooks/useGameContext"
-
-import FieldItem from "./FieldItem"
 import styles from "./Field.module.scss"
+import { useGameContext } from "../../hooks/useGameContext"
+import FieldItem from "./FieldItem"
 
 const Field: FC = () => {
 	const { field } = useGameContext()
+	console.log("render")
 	return (
 		<div className={styles.field}>
 			{field.map((row, x) => (
