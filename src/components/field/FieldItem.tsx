@@ -1,4 +1,4 @@
-import { FC, MouseEvent } from "react"
+import { FC, MouseEvent, useEffect, useState } from "react"
 import styles from "./Field.module.scss"
 import { Cell } from "../../types/cell"
 import { useGameContext } from "../../hooks/useGameContext"
@@ -14,12 +14,31 @@ const FieldItem: FC<{ cell: Cell; x: number; y: number }> = ({
 	const handleClick = (e: MouseEvent) => {
 		leftClick(x, y)
 	}
-	let mask = <img alt="fill-cell" height={32} width={32} src={Masks.fill} />
-	if (status === "flag")
-		mask = <img alt="flag" height={32} width={32} src={Masks.flag} />
-	if (status === "question")
-		mask = <img alt="question" height={32} width={32} src={Masks.question} />
-	if (status === "opened") mask = <span>{value}</span>
+	const defaultMask =
+		cell.status === "opened" ? Masks.opened[cell.value] : Masks[cell.status]
+	const [sourceMask, setSourceMask] = useState<string>(defaultMask)
+
+	const mouseDownHandler = () => {
+		if (status === "fill") {
+			setSourceMask(Masks.opened[0])
+		}
+	}
+
+	const mouseLeaveHandler = () => {
+		if (status === "fill") {
+			setSourceMask(Masks.fill)
+		}
+	}
+
+	let mask = (
+		<img
+			alt={`${cell.status}`}
+			height={32}
+			width={32}
+			draggable={false}
+			src={sourceMask}
+		/>
+	)
 	return (
 		<span
 			className={styles.cell}
@@ -28,6 +47,8 @@ const FieldItem: FC<{ cell: Cell; x: number; y: number }> = ({
 				e.preventDefault()
 				rightClick(x, y)
 			}}
+			onMouseDown={mouseDownHandler}
+			onMouseLeave={mouseLeaveHandler}
 		>
 			{mask}
 		</span>

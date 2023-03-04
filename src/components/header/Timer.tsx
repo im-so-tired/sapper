@@ -1,5 +1,5 @@
 import { FC } from "react"
-import zero from "../../assets/numbersToCount/0.jpg"
+import zero from "../../assets/numbersToCount/0.png"
 
 const Timer: FC = () => {
 	return (

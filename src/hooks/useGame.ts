@@ -10,11 +10,11 @@ import { IGameContext } from "./useGameContext"
 export const useGame = (): IGameContext => {
 	const [field, setField] = useState<Cell[][]>(() => createField())
 	const [gameStatus, setGameStatus] = useState<GameStatus>("playing")
-	const [counter, setCounter] = useState(0)
+	const [counterMine, setCounterMine] = useState(40)
 	const [firstClick, setFirstClick] = useState(true)
 
 	const leftClick = (x: number, y: number) => {
-		if (gameStatus !== "playing" && field[x][y].status === "opened") return
+		if (gameStatus !== "playing" || field[x][y].status === "opened") return
 		let firstField: Cell[][] = []
 		if (firstClick) {
 			firstField = createMine(field, x, y)
@@ -86,5 +86,6 @@ export const useGame = (): IGameContext => {
 		}
 		setField(prev => JSON.parse(JSON.stringify(prev)))
 	}
-	return { field, gameStatus, leftClick, rightClick, counter }
+
+	return { field, gameStatus, leftClick, rightClick, counterMine }
 }
