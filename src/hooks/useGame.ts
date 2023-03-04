@@ -1,15 +1,25 @@
 import { useState } from "react"
-import { createField } from "../components/field/utils/createField"
+
 import { GameStatus } from "../types/gameStatus"
 import { Cell } from "../types/cell"
+import { createField } from "../utils/createField"
+import { createMine } from "../utils/createMine"
+import { size } from "../constants"
+import { IGameContext } from "./useGameContext"
 
-export const useGame = () => {
+export const useGame = (): IGameContext => {
 	const [field, setField] = useState<Cell[][]>(() => createField())
 	const [gameStatus, setGameStatus] = useState<GameStatus>("playing")
 	const [counter, setCounter] = useState(0)
+	const [firstClick, setFirstClick] = useState(true)
 
 	const leftClick = (x: number, y: number) => {
-		// if (gameStatus === "lose" || gameStatus === "win") return
+		if (gameStatus !== "playing") return
+		let firstField: Cell[][] = []
+		if (firstClick) {
+			firstField = createMine(field, x, y)
+			console.log("first")
+		}
 		if (field[x][y].value === -1) {
 			setGameStatus("lose")
 			const newField = field.map((row: Cell[]) =>
@@ -23,31 +33,45 @@ export const useGame = () => {
 			)
 			setField(newField)
 		} else if (field[x][y].value === 0) {
+			let clearedField: Cell[][] = []
+
+			if (firstClick) {
+				clearedField = firstField
+				setFirstClick(false)
+			} else clearedField = field
+
 			const clearing: [number, number][] = []
 			const clear = (setOffX: number, setOffY: number) => {
-				if (
-					setOffX >= 0 &&
-					setOffX < field.length &&
-					setOffY >= 0 &&
-					setOffY < field.length
-				) {
-					if (field[setOffX][setOffY].opened) return
+				if (setOffX >= 0 && setOffX < size && setOffY >= 0 && setOffY < size) {
+					if (clearedField[setOffX][setOffY].opened) return
 					clearing.push([setOffX, setOffY])
 				}
 			}
+
 			clear(x, y)
+
 			while (clearing.length) {
-				console.log(clearing)
 				const [coorX, coorY] = clearing.pop()!
-				field[coorX][coorY].opened = true
-				if (field[coorX][coorY].value !== 0) continue
+				clearedField[coorX][coorY].opened = true
+				if (clearedField[coorX][coorY].value !== 0) continue
 
-				clear(coorX + 1, coorY)
+				// clear(coorX + 1, coorY)
+				// clear(coorX - 1, coorY)
+				//
+				// clear(coorX, coorY + 1)
+				// clear(coorX, coorY - 1)
+
+				clear(coorX - 1, coorY - 1)
+				clear(coorX - 1, coorY + 1)
+				clear(coorX + 1, coorY - 1)
+				clear(coorX + 1, coorY + 1)
+
 				clear(coorX - 1, coorY)
-
-				clear(coorX, coorY + 1)
+				clear(coorX + 1, coorY)
 				clear(coorX, coorY - 1)
+				clear(coorX, coorY + 1)
 			}
+
 			setField(prev => JSON.parse(JSON.stringify(prev)))
 		} else {
 			field[x][y].opened = true
@@ -55,8 +79,17 @@ export const useGame = () => {
 		}
 	}
 
-	const rightClick = () => {
-		setCounter(prev => prev + 1)
+	const rightClick = (x: number, y: number) => {
+		if (field[x][y].opened) return
+		if (field[x][y].isFlag) {
+			field[x][y].isFlag = false
+			field[x][y].isQuestion = true
+		} else if (field[x][y].isQuestion) {
+			field[x][y].isQuestion = false
+		} else {
+			field[x][y].isFlag = true
+		}
+		setField(prev => JSON.parse(JSON.stringify(prev)))
 	}
 	return { field, gameStatus, leftClick, rightClick, counter }
 }

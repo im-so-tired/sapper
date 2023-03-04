@@ -5,7 +5,7 @@ import { GameStatus } from "../types/gameStatus"
 export interface IGameContext {
 	field: Cell[][]
 	gameStatus: GameStatus
-	rightClick: () => void
+	rightClick: (x: number, y: number) => void
 	leftClick: (x: number, y: number) => void
 	counter: number
 }

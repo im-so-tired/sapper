@@ -33,7 +33,7 @@
 	"rules": {
 		"react/react-in-jsx-scope": "off",
 		"react/self-closing-comp": "off",
-		//		"prettier/prettier": "off",
+		"prettier/prettier": "off",
 		"react/function-component-definition": "off",
 		"react/button-has-type": "off",
 		"import/extensions": "off",
