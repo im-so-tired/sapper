@@ -1,6 +1,4 @@
 export interface Cell {
-	opened: boolean
+	status: "opened" | "flag" | "question" | "fill"
 	value: number
-	isFlag: boolean
-	isQuestion: boolean
 }

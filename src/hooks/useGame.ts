@@ -14,11 +14,10 @@ export const useGame = (): IGameContext => {
 	const [firstClick, setFirstClick] = useState(true)
 
 	const leftClick = (x: number, y: number) => {
-		if (gameStatus !== "playing") return
+		if (gameStatus !== "playing" && field[x][y].status === "opened") return
 		let firstField: Cell[][] = []
 		if (firstClick) {
 			firstField = createMine(field, x, y)
-			console.log("first")
 		}
 		if (field[x][y].value === -1) {
 			setGameStatus("lose")
@@ -26,7 +25,7 @@ export const useGame = (): IGameContext => {
 				row.map(cell => {
 					const newCell = cell
 					if (cell.value === -1) {
-						newCell.opened = true
+						newCell.status = "opened"
 					}
 					return newCell
 				})
@@ -43,7 +42,7 @@ export const useGame = (): IGameContext => {
 			const clearing: [number, number][] = []
 			const clear = (setOffX: number, setOffY: number) => {
 				if (setOffX >= 0 && setOffX < size && setOffY >= 0 && setOffY < size) {
-					if (clearedField[setOffX][setOffY].opened) return
+					if (clearedField[setOffX][setOffY].status === "opened") return
 					clearing.push([setOffX, setOffY])
 				}
 			}
@@ -52,14 +51,8 @@ export const useGame = (): IGameContext => {
 
 			while (clearing.length) {
 				const [coorX, coorY] = clearing.pop()!
-				clearedField[coorX][coorY].opened = true
+				clearedField[coorX][coorY].status = "opened"
 				if (clearedField[coorX][coorY].value !== 0) continue
-
-				// clear(coorX + 1, coorY)
-				// clear(coorX - 1, coorY)
-				//
-				// clear(coorX, coorY + 1)
-				// clear(coorX, coorY - 1)
 
 				clear(coorX - 1, coorY - 1)
 				clear(coorX - 1, coorY + 1)
@@ -74,20 +67,22 @@ export const useGame = (): IGameContext => {
 
 			setField(prev => JSON.parse(JSON.stringify(prev)))
 		} else {
-			field[x][y].opened = true
+			field[x][y].status = "opened"
 			setField(prev => JSON.parse(JSON.stringify(prev)))
 		}
 	}
 
 	const rightClick = (x: number, y: number) => {
-		if (field[x][y].opened) return
-		if (field[x][y].isFlag) {
-			field[x][y].isFlag = false
-			field[x][y].isQuestion = true
-		} else if (field[x][y].isQuestion) {
-			field[x][y].isQuestion = false
-		} else {
-			field[x][y].isFlag = true
+		if (field[x][y].status === "opened") return
+		switch (field[x][y].status) {
+			case "flag":
+				field[x][y].status = "question"
+				break
+			case "question":
+				field[x][y].status = "fill"
+				break
+			default:
+				field[x][y].status = "flag"
 		}
 		setField(prev => JSON.parse(JSON.stringify(prev)))
 	}
