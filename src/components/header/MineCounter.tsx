@@ -1,6 +1,7 @@
 import { FC } from "react"
-import zero from "../../assets/numbersToCount/0.png"
+
 import { useGameContext } from "../../hooks/useGameContext"
+
 import { numberReplace } from "./helper/numberReplace"
 
 const MineCounter: FC = () => {

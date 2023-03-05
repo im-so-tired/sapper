@@ -1,10 +1,12 @@
 import { FC, MouseEvent, useEffect, useState } from "react"
-import styles from "./Field.module.scss"
-import { Cell } from "../../types/cell"
-import { useGameContext } from "../../hooks/useGameContext"
-import { Masks } from "../../utils/mask"
+
 import clickedMineImg from "../../assets/field/clicked-mine.png"
 import notMine from "../../assets/field/not-mine.png"
+import { useGameContext } from "../../hooks/useGameContext"
+import { Cell } from "../../types/cell"
+import { Masks } from "../../utils/mask"
+
+import styles from "./Field.module.scss"
 
 const FieldItem: FC<{ cell: Cell; x: number; y: number }> = ({
 	cell,

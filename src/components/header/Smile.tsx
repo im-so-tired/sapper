@@ -1,11 +1,11 @@
 import { FC, useState } from "react"
-import { useGameContext } from "../../hooks/useGameContext"
 
-import good from "../../assets/emoticons/good.png"
-import dead from "../../assets/emoticons/dead.png"
 import awesome from "../../assets/emoticons/awesome.png"
-import worried from "../../assets/emoticons/worried.png"
+import dead from "../../assets/emoticons/dead.png"
+import good from "../../assets/emoticons/good.png"
 import pushImg from "../../assets/emoticons/pushIn.png"
+import worried from "../../assets/emoticons/worried.png"
+import { useGameContext } from "../../hooks/useGameContext"
 
 const smiles = {
 	playing: good,

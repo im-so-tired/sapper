@@ -1,9 +1,11 @@
 import { FC } from "react"
+
+import { useGameContext } from "../../hooks/useGameContext"
+
 import styles from "./Header.module.scss"
 import MineCounter from "./MineCounter"
 import Smile from "./Smile"
 import Timer from "./Timer"
-import { useGameContext } from "../../hooks/useGameContext"
 
 const Header: FC = () => {
 	const { firstClick, gameStatus } = useGameContext()

@@ -3,5 +3,13 @@
 	"tabWidth": 2,
 	"useTabs": true,
 	"semi": false,
-	"arrowParens": "avoid"
+	"arrowParens": "avoid",
+	"importOrder": [
+		"<THIRD_PARTY_MODULES>",
+		"^../(.*)",
+		"^./(.*)",
+		"(.scss)$"
+	],
+	"importOrderSeparation": true,
+	"importOrderSortSpecifiers": true
 }

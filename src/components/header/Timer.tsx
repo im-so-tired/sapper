@@ -1,6 +1,8 @@
 import { FC, memo, useEffect, useState } from "react"
-import { numberReplace } from "./helper/numberReplace"
+
 import { GameStatus } from "../../types/gameStatus"
+
+import { numberReplace } from "./helper/numberReplace"
 
 const Timer: FC<{ gameStatus: GameStatus; firstClick: boolean }> = memo(
 	({ gameStatus, firstClick }) => {

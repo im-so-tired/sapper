@@ -1,10 +1,11 @@
 import { useState } from "react"
 
-import { GameStatus } from "../types/gameStatus"
+import { countMines, size } from "../constants"
 import { Cell } from "../types/cell"
+import { GameStatus } from "../types/gameStatus"
 import { createField } from "../utils/createField"
 import { createMine } from "../utils/createMine"
-import { countMines, size } from "../constants"
+
 import { IGameContext } from "./useGameContext"
 
 export const useGame = (): IGameContext => {

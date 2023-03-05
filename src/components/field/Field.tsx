@@ -1,8 +1,9 @@
 import { FC } from "react"
+
 import { useGameContext } from "../../hooks/useGameContext"
 
-import FieldItem from "./FieldItem"
 import styles from "./Field.module.scss"
+import FieldItem from "./FieldItem"
 
 const Field: FC = () => {
 	const { field } = useGameContext()

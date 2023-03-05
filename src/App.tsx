@@ -1,8 +1,8 @@
-import { GameProvider } from "./hooks/useGameContext"
 import styles from "./App.module.scss"
-import Header from "./components/header/Header"
 import Field from "./components/field/Field"
+import Header from "./components/header/Header"
 import { useGame } from "./hooks/useGame"
+import { GameProvider } from "./hooks/useGameContext"
 
 function App() {
 	const data = useGame()
