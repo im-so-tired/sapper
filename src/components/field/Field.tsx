@@ -1,5 +1,4 @@
 import { FC } from "react"
-import { v4 as uuid } from "uuid"
 import { useGameContext } from "../../hooks/useGameContext"
 
 import FieldItem from "./FieldItem"
@@ -10,9 +9,9 @@ const Field: FC = () => {
 	return (
 		<div className={styles.field}>
 			{field.map((row, x) => (
-				<div className={styles.row} key={uuid()}>
+				<div className={styles.row} key={x}>
 					{row.map((info, y) => (
-						<FieldItem cell={info} key={uuid()} x={x} y={y} />
+						<FieldItem cell={info} key={info.id} x={x} y={y} />
 					))}
 				</div>
 			))}

@@ -3,21 +3,34 @@ import styles from "./Field.module.scss"
 import { Cell } from "../../types/cell"
 import { useGameContext } from "../../hooks/useGameContext"
 import { Masks } from "../../utils/mask"
+import clickedMineImg from "../../assets/field/clicked-mine.png"
+import notMine from "../../assets/field/not-mine.png"
 
 const FieldItem: FC<{ cell: Cell; x: number; y: number }> = ({
 	cell,
 	x,
 	y,
 }) => {
-	const { leftClick, rightClick } = useGameContext()
+	const { leftClick, rightClick, clickedMine, gameStatus } = useGameContext()
 	const { value, status } = cell
+
+	const [sourceMask, setSourceMask] = useState<string>(Masks.fill)
+
+	useEffect(() => {
+		console.log(x, y)
+		setSourceMask(() =>
+			status === "opened" ? Masks.opened[value] : Masks[status]
+		)
+		if (clickedMine && clickedMine.x === x && clickedMine.y === y) {
+			setSourceMask(clickedMineImg)
+		} else if (gameStatus === "lose" && status === "flag" && value !== -1) {
+			setSourceMask(notMine)
+		}
+	}, [status, gameStatus, x, y, clickedMine, value])
+
 	const handleClick = (e: MouseEvent) => {
 		leftClick(x, y)
 	}
-	const defaultMask =
-		cell.status === "opened" ? Masks.opened[cell.value] : Masks[cell.status]
-	const [sourceMask, setSourceMask] = useState<string>(defaultMask)
-
 	const mouseDownHandler = () => {
 		if (status === "fill") {
 			setSourceMask(Masks.opened[0])

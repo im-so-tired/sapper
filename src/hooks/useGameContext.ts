@@ -8,6 +8,7 @@ export interface IGameContext {
 	rightClick: (x: number, y: number) => void
 	leftClick: (x: number, y: number) => void
 	counterMine: number
+	clickedMine: null | { x: number; y: number }
 }
 
 const GameContext = createContext<IGameContext | null>(null)

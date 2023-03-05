@@ -12,6 +12,10 @@ export const useGame = (): IGameContext => {
 	const [gameStatus, setGameStatus] = useState<GameStatus>("playing")
 	const [counterMine, setCounterMine] = useState(40)
 	const [firstClick, setFirstClick] = useState(true)
+	const [clickedMine, setClickedMine] = useState<{
+		x: number
+		y: number
+	} | null>(null)
 
 	const leftClick = (x: number, y: number) => {
 		if (gameStatus !== "playing" || field[x][y].status === "opened") return
@@ -31,6 +35,7 @@ export const useGame = (): IGameContext => {
 					return newCell
 				})
 			)
+			setClickedMine({ x, y })
 			setField(newField)
 		} else if (field[x][y].value === 0) {
 			let clearedField: Cell[][] = []
@@ -75,7 +80,7 @@ export const useGame = (): IGameContext => {
 	}
 
 	const rightClick = (x: number, y: number) => {
-		if (field[x][y].status === "opened") return
+		if (gameStatus !== "playing" || field[x][y].status === "opened") return
 		switch (field[x][y].status) {
 			case "flag":
 				setCounterMine(prev => prev + 1)
@@ -91,5 +96,5 @@ export const useGame = (): IGameContext => {
 		setField(prev => JSON.parse(JSON.stringify(prev)))
 	}
 
-	return { field, gameStatus, leftClick, rightClick, counterMine }
+	return { field, gameStatus, leftClick, rightClick, counterMine, clickedMine }
 }
