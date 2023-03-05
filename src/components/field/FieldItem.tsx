@@ -16,7 +16,6 @@ const FieldItem: FC<{ cell: Cell; x: number; y: number }> = ({
 		rightClick,
 		clickedMine,
 		gameStatus,
-		changeGameStatus,
 		pressed,
 		changePressed,
 	} = useGameContext()
@@ -40,10 +39,10 @@ const FieldItem: FC<{ cell: Cell; x: number; y: number }> = ({
 		leftClick(x, y)
 	}
 
-	const mouseDownHandler = () => {
+	const mouseDownHandler = (e: MouseEvent) => {
 		if (status === "fill" && gameStatus !== "win" && gameStatus !== "lose") {
 			setSourceMask(Masks.opened[0])
-			changePressed(true)
+			if (e.button === 0) changePressed(true)
 		}
 	}
 
@@ -71,7 +70,7 @@ const FieldItem: FC<{ cell: Cell; x: number; y: number }> = ({
 				e.preventDefault()
 				rightClick(x, y)
 			}}
-			onMouseDown={mouseDownHandler}
+			onMouseDown={e => mouseDownHandler(e)}
 			onMouseUp={mouseLeaveHandler}
 			onMouseLeave={mouseLeaveHandler}
 		>

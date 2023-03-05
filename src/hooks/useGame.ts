@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 import { GameStatus } from "../types/gameStatus"
 import { Cell } from "../types/cell"
@@ -16,13 +16,6 @@ export const useGame = (): IGameContext => {
 		x: number
 		y: number
 	} | null>(null)
-	// const [gameStopped, setGameStopped] = useState(true)
-	//
-	// useEffect(() => {
-	// 	firstClick || gameStatus === "win" || gameStatus === "lose"
-	// 		? setGameStopped(true)
-	// 		: setGameStopped(false)
-	// }, [firstClick, gameStatus])
 	const [pressed, setPressed] = useState(false)
 
 	const changePressed = (newState: boolean) => {
@@ -36,7 +29,7 @@ export const useGame = (): IGameContext => {
 			firstField = createMine(field, x, y)
 		}
 		if (field[x][y].value === -1) {
-			// setGameStatus("lose")
+			setGameStatus("lose")
 			const newField = field.map((row: Cell[]) =>
 				row.map(cell => {
 					const newCell = cell
