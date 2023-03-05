@@ -88,7 +88,6 @@ export const useGame = (): IGameContext => {
 				if (cell.value !== -1 && cell.status === "opened") notOpenedCell -= 1
 			})
 		)
-		console.log(notOpenedCell)
 		if (notOpenedCell === 0) setGameStatus("win")
 	}
 

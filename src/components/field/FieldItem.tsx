@@ -37,10 +37,6 @@ const FieldItem: FC<{ cell: Cell; x: number; y: number }> = ({
 		}
 	}, [status, gameStatus, x, y, clickedMine, value, pressed])
 
-	const handleClick = (e: MouseEvent) => {
-		leftClick(x, y)
-	}
-
 	const mouseDownHandler = (e: MouseEvent) => {
 		if (status === "fill" && gameStatus !== "win" && gameStatus !== "lose") {
 			setSourceMask(Masks.opened[0])
@@ -67,7 +63,7 @@ const FieldItem: FC<{ cell: Cell; x: number; y: number }> = ({
 	return (
 		<span
 			className={styles.cell}
-			onClick={e => handleClick(e)}
+			onClick={() => leftClick(x, y)}
 			onContextMenu={e => {
 				e.preventDefault()
 				rightClick(x, y)
