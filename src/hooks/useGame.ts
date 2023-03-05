@@ -90,11 +90,32 @@ export const useGame = (): IGameContext => {
 				field[x][y].status = "fill"
 				break
 			default:
-				setCounterMine(prev => prev - 1)
+				if (counterMine !== 0) setCounterMine(prev => prev - 1)
 				field[x][y].status = "flag"
 		}
 		setField(prev => JSON.parse(JSON.stringify(prev)))
 	}
 
-	return { field, gameStatus, leftClick, rightClick, counterMine, clickedMine }
+	const changeGameStatus = (newStatus: GameStatus) => {
+		setGameStatus(newStatus)
+	}
+
+	const restartGame = () => {
+		setField(() => createField())
+		setGameStatus("playing")
+		setCounterMine(40)
+		setFirstClick(true)
+		setClickedMine(null)
+	}
+	return {
+		field,
+		gameStatus,
+		leftClick,
+		rightClick,
+		counterMine,
+		clickedMine,
+		firstClick,
+		changeGameStatus,
+		restartGame,
+	}
 }
