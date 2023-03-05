@@ -11,10 +11,22 @@ import five from "../assets/field/numbers/5.png"
 import six from "../assets/field/numbers/6.png"
 import seven from "../assets/field/numbers/7.png"
 import eight from "../assets/field/numbers/8.png"
+import mine from "../assets/field/mine.png"
 
 export const Masks = {
 	fill: fillCell,
 	flag,
 	question,
-	opened: [zero, one, two, three, four, five, six, seven, eight],
+	opened: {
+		"-1": mine,
+		0: zero,
+		1: one,
+		2: two,
+		3: three,
+		4: four,
+		5: five,
+		6: six,
+		7: seven,
+		8: eight,
+	},
 }

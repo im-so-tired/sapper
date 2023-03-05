@@ -15,6 +15,7 @@ export const useGame = (): IGameContext => {
 
 	const leftClick = (x: number, y: number) => {
 		if (gameStatus !== "playing" || field[x][y].status === "opened") return
+		if (field[x][y].status !== "fill") return
 		let firstField: Cell[][] = []
 		if (firstClick) {
 			firstField = createMine(field, x, y)
@@ -51,7 +52,8 @@ export const useGame = (): IGameContext => {
 
 			while (clearing.length) {
 				const [coorX, coorY] = clearing.pop()!
-				clearedField[coorX][coorY].status = "opened"
+				if (clearedField[coorX][coorY].status === "fill")
+					clearedField[coorX][coorY].status = "opened"
 				if (clearedField[coorX][coorY].value !== 0) continue
 
 				clear(coorX - 1, coorY - 1)
@@ -76,12 +78,14 @@ export const useGame = (): IGameContext => {
 		if (field[x][y].status === "opened") return
 		switch (field[x][y].status) {
 			case "flag":
+				setCounterMine(prev => prev + 1)
 				field[x][y].status = "question"
 				break
 			case "question":
 				field[x][y].status = "fill"
 				break
 			default:
+				setCounterMine(prev => prev - 1)
 				field[x][y].status = "flag"
 		}
 		setField(prev => JSON.parse(JSON.stringify(prev)))
