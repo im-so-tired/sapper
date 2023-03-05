@@ -1,10 +1,10 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import { GameStatus } from "../types/gameStatus"
 import { Cell } from "../types/cell"
 import { createField } from "../utils/createField"
 import { createMine } from "../utils/createMine"
-import { size } from "../constants"
+import { countMines, size } from "../constants"
 import { IGameContext } from "./useGameContext"
 
 export const useGame = (): IGameContext => {
@@ -16,7 +16,18 @@ export const useGame = (): IGameContext => {
 		x: number
 		y: number
 	} | null>(null)
+	// const [gameStopped, setGameStopped] = useState(true)
+	//
+	// useEffect(() => {
+	// 	firstClick || gameStatus === "win" || gameStatus === "lose"
+	// 		? setGameStopped(true)
+	// 		: setGameStopped(false)
+	// }, [firstClick, gameStatus])
+	const [pressed, setPressed] = useState(false)
 
+	const changePressed = (newState: boolean) => {
+		setPressed(newState)
+	}
 	const leftClick = (x: number, y: number) => {
 		if (gameStatus !== "playing" || field[x][y].status === "opened") return
 		if (field[x][y].status !== "fill") return
@@ -25,7 +36,7 @@ export const useGame = (): IGameContext => {
 			firstField = createMine(field, x, y)
 		}
 		if (field[x][y].value === -1) {
-			setGameStatus("lose")
+			// setGameStatus("lose")
 			const newField = field.map((row: Cell[]) =>
 				row.map(cell => {
 					const newCell = cell
@@ -77,6 +88,14 @@ export const useGame = (): IGameContext => {
 			field[x][y].status = "opened"
 			setField(prev => JSON.parse(JSON.stringify(prev)))
 		}
+		let notOpenedCell = size * size - countMines - 1
+		field.forEach(row =>
+			row.forEach(cell => {
+				if (cell.value !== -1 && cell.status === "opened") notOpenedCell -= 1
+			})
+		)
+		console.log(notOpenedCell)
+		if (notOpenedCell === 0) setGameStatus("win")
 	}
 
 	const rightClick = (x: number, y: number) => {
@@ -117,5 +136,7 @@ export const useGame = (): IGameContext => {
 		firstClick,
 		changeGameStatus,
 		restartGame,
+		pressed,
+		changePressed,
 	}
 }

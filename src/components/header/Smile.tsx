@@ -14,10 +14,11 @@ const smiles = {
 }
 
 const Smile: FC = () => {
-	const { gameStatus, restartGame } = useGameContext()
+	const { gameStatus, restartGame, pressed } = useGameContext()
+	const srcImg = pressed ? smiles.pressed : smiles[gameStatus]
 	return (
 		<button onClick={restartGame}>
-			<img alt="smile" src={smiles[gameStatus]} />
+			<img alt="smile" src={srcImg} />
 		</button>
 	)
 }

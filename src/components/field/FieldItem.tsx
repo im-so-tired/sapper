@@ -11,14 +11,21 @@ const FieldItem: FC<{ cell: Cell; x: number; y: number }> = ({
 	x,
 	y,
 }) => {
-	const { leftClick, rightClick, clickedMine, gameStatus, changeGameStatus } =
-		useGameContext()
+	const {
+		leftClick,
+		rightClick,
+		clickedMine,
+		gameStatus,
+		changeGameStatus,
+		pressed,
+		changePressed,
+	} = useGameContext()
 	const { value, status } = cell
 
 	const [sourceMask, setSourceMask] = useState<string>(Masks.fill)
 
 	useEffect(() => {
-		if (gameStatus !== "pressed")
+		if (!pressed)
 			setSourceMask(() =>
 				status === "opened" ? Masks.opened[value] : Masks[status]
 			)
@@ -27,7 +34,7 @@ const FieldItem: FC<{ cell: Cell; x: number; y: number }> = ({
 		} else if (gameStatus === "lose" && status === "flag" && value !== -1) {
 			setSourceMask(notMine)
 		}
-	}, [status, gameStatus, x, y, clickedMine, value])
+	}, [status, gameStatus, x, y, clickedMine, value, pressed])
 
 	const handleClick = (e: MouseEvent) => {
 		leftClick(x, y)
@@ -36,14 +43,14 @@ const FieldItem: FC<{ cell: Cell; x: number; y: number }> = ({
 	const mouseDownHandler = () => {
 		if (status === "fill" && gameStatus !== "win" && gameStatus !== "lose") {
 			setSourceMask(Masks.opened[0])
-			changeGameStatus("pressed")
+			changePressed(true)
 		}
 	}
 
 	const mouseLeaveHandler = () => {
 		if (status === "fill" && gameStatus !== "win" && gameStatus !== "lose") {
 			setSourceMask(Masks.fill)
-			changeGameStatus("playing")
+			changePressed(false)
 		}
 	}
 

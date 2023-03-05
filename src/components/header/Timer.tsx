@@ -10,7 +10,7 @@ const Timer: FC = () => {
 		const timerId = setTimeout(() => setSeconds(prev => prev + 1), 1000)
 		return () => clearTimeout(timerId)
 	})
-
+	console.log("render")
 	useEffect(() => {
 		setSeconds(0)
 	}, [firstClick])

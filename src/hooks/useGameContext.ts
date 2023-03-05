@@ -12,6 +12,8 @@ export interface IGameContext {
 	firstClick: boolean
 	changeGameStatus: (newStatus: GameStatus) => void
 	restartGame: () => void
+	pressed: boolean
+	changePressed: (newState: boolean) => void
 }
 
 const GameContext = createContext<IGameContext | null>(null)
